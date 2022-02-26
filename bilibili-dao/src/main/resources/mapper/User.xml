@@ -15,7 +15,7 @@
                            email,
                            password,
                            salt,
-                           createTime,)
+                           createTime)
         values (#{phone},
                 #{email},
                 #{password},
@@ -33,6 +33,7 @@
                 #{nick},
                 #{avatar},
                 #{sign},
+                #{gender},
                 #{birth},
                 #{createTime}
                )
