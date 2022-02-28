@@ -51,6 +51,7 @@ public class UserService {
         userInfo.setNick(Constant.DEFAULT_NICK);
         userInfo.setBirth(Constant.DEFAULT_BIRTH);
         userInfo.setCreateTime(now);
+        userInfo.setGender(Constant.GENDER_MALE);
         userDao.addUserInfo(userInfo);
 
     }
@@ -58,7 +59,7 @@ public class UserService {
         return userDao.getUserByPhone(phone);
     }
 
-    public String login(User user) {
+    public String login(User user) throws Exception {
         String phone = user.getPhone();
         User userByPhone = userDao.getUserByPhone(phone);
         if(userByPhone == null){
@@ -71,11 +72,24 @@ public class UserService {
         } catch (Exception e) {
             throw new ConditionException("密码解密失败");
         }
-        String salt = user.getSalt();
+
+        String salt = userByPhone.getSalt();
         String MD5Password = MD5Util.sign(rowPassword, salt, "UTF-8");
-        if(!Objects.equals(MD5Password,user.getPassword())){
+        if(!Objects.equals(MD5Password,userByPhone.getPassword())){
             throw new ConditionException("密码错误");
         }
-        return TokenUtil.generateToken(user.getId());
+        return TokenUtil.generateToken(userByPhone.getId());
+    }
+
+    public User getUserInfo(Long userId) {
+        User user = userDao.getUserById(userId);
+        UserInfo userInfo = userDao.getUserInfoByUserId(userId);
+        user.setUserInfo(userInfo);
+        return user;
+    }
+
+    public void updateUserInfo(UserInfo userInfo) {
+        userInfo.setUpdateTime(new Date());
+        Integer i = userDao.updateUserInfo(userInfo);
     }
 }
