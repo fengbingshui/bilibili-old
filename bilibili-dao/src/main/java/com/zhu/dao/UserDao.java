@@ -5,6 +5,9 @@ import com.zhu.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Set;
+
 @Mapper
 public interface UserDao {
     User getUserByPhone(String phone);
@@ -18,4 +21,6 @@ public interface UserDao {
     UserInfo getUserInfoByUserId(Long userId);
 
     Integer updateUserInfo(UserInfo userInfo);
+
+    List<UserInfo> getUserInfoByUserIds(Set<Long> userFollowingSet);
 }

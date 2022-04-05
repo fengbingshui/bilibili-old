@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.dao.UserFollowingDao">
+    <insert id="addUserFollowing" parameterType="com.zhu.domain.UserFollowing">
+        insert into t_user_following(
+                userId,
+                followingId,
+                groupId,
+                createTime)
+        set(
+                #{userId},
+                #{followingId},
+                #{groupId},
+                #{createTime},
+        )
+    </insert>
+
+    <delete id="deleteUserFollowing">
+        delete
+        from t_user_following
+        where userId = #{userId}
+          and followingId = #{followingId}
+    </delete>
+    <select id="getUserFollowing" resultType="com.zhu.domain.UserFollowing" parameterType="java.lang.Long">
+        select * from t_user_following where userId = #{userId}
+    </select>
+    <select id="getUserFans" resultType="com.zhu.domain.UserFollowing" parameterType="java.lang.Long">
+        select * from t_user_following where followingId = #{followingId}
+    </select>
+</mapper>
